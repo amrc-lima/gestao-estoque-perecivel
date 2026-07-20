@@ -1,0 +1,146 @@
+(venv) PS C:\Users\eduardo-windows\Desktop\ia\Grupo1_Estoque_Perecivel> python scripts/demo.py --algo PPO --train_seed 0 --seed 42 --render
+=== Demonstração: agente PPO (treinado com seed 0) rodando na semente surpresa 42 ===
+Dinâmica sorteada para este episódio -> lambda_base=12.19, prob_choque=0.042, prob_falha_entrega=0.050
+Dia   1 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:    3.00 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa= -47.00
+Dia   2 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:   31.00 | Pend: [np.int64(9)] | ação(pedido)= 9 | recompensa=  28.00
+Dia   3 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:   24.50 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  -6.50
+Dia   4 | Estoque[a0: 0 a1: 5 a2: 0 a3: 0] | Caixa:   34.75 | Pend: [np.int64(12)] | ação(pedido)=12 | recompensa=  10.25
+Dia   5 | Estoque[a0: 0 a1: 1 a2: 0 a3: 0] | Caixa:   67.60 | Pend: [np.int64(15)] | ação(pedido)=15 | recompensa=  32.85
+Dia   6 | Estoque[a0: 0 a1: 2 a2: 0 a3: 0] | Caixa:   92.30 | Pend: [np.int64(15)] | ação(pedido)=15 | recompensa=  24.70
+Dia   7 | Estoque[a0: 0 a1: 6 a2: 0 a3: 0] | Caixa:  104.40 | Pend: [np.int64(15)] | ação(pedido)=15 | recompensa=  12.10
+Dia   8 | Estoque[a0: 0 a1: 7 a2: 0 a3: 0] | Caixa:  130.35 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  25.95
+Dia   9 | Estoque[a0: 0 a1:10 a2: 0 a3: 0] | Caixa:  143.85 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  13.50
+Dia  10 | Estoque[a0: 0 a1: 9 a2: 0 a3: 0] | Caixa:  173.50 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  29.65
+Dia  11 | Estoque[a0: 0 a1:14 a2: 2 a3: 0] | Caixa:  170.10 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  -3.40
+Dia  12 | Estoque[a0: 0 a1:14 a2: 2 a3: 0] | Caixa:  192.70 | Pend: [np.int64(15)] | ação(pedido)=15 | recompensa=  22.60
+Dia  13 | Estoque[a0: 0 a1:14 a2: 0 a3: 0] | Caixa:  227.60 | Pend: [np.int64(15)] | ação(pedido)=15 | recompensa=  34.90
+Dia  14 | Estoque[a0: 0 a1:11 a2: 0 a3: 0] | Caixa:  268.95 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  41.35
+Dia  15 | Estoque[a0: 0 a1:14 a2: 3 a3: 0] | Caixa:  269.40 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=   0.45
+Dia  16 | Estoque[a0: 0 a1:14 a2: 4 a3: 0] | Caixa:  289.70 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  20.30
+Dia  17 | Estoque[a0: 0 a1:14 a2: 0 a3: 0] | Caixa:  330.60 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  40.90
+Dia  18 | Estoque[a0: 0 a1:14 a2: 4 a3: 0] | Caixa:  338.90 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=   8.30
+Dia  19 | Estoque[a0: 0 a1:13 a2: 0 a3: 0] | Caixa:  383.95 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  45.05
+Dia  20 | Estoque[a0: 0 a1:12 a2: 0 a3: 0] | Caixa:  413.15 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  29.20
+Dia  21 | Estoque[a0: 0 a1:10 a2: 0 a3: 0] | Caixa:  446.65 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  33.50
+Dia  22 | Estoque[a0: 0 a1:13 a2: 0 a3: 0] | Caixa:  459.70 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  13.05
+Dia  23 | Estoque[a0: 0 a1: 4 a2: 0 a3: 0] | Caixa:  506.10 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  46.40
+Dia  24 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:  543.10 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  37.00
+Dia  25 | Estoque[a0: 0 a1: 6 a2: 0 a3: 0] | Caixa:  545.20 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=   2.10
+Dia  26 | Estoque[a0: 0 a1: 1 a2: 0 a3: 0] | Caixa:  592.05 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  46.85
+Dia  27 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:  614.05 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  22.00
+Dia  28 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:  609.55 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  -4.50
+Dia  29 | Estoque[a0: 0 a1: 6 a2: 0 a3: 0] | Caixa:  611.65 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=   2.10
+Dia  30 | Estoque[a0: 0 a1: 4 a2: 0 a3: 0] | Caixa:  646.05 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  34.40
+Dia  31 | Estoque[a0: 0 a1: 5 a2: 0 a3: 0] | Caixa:  668.30 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  22.25
+Dia  32 | Estoque[a0: 0 a1:11 a2: 0 a3: 0] | Caixa:  669.65 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=   1.35
+Dia  33 | Estoque[a0: 0 a1:13 a2: 0 a3: 0] | Caixa:  686.70 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  17.05
+Dia  34 | Estoque[a0: 0 a1:10 a2: 0 a3: 0] | Caixa:  724.20 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  37.50
+Dia  35 | Estoque[a0: 0 a1: 8 a2: 0 a3: 0] | Caixa:  758.00 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  33.80
+Dia  36 | Estoque[a0: 0 a1: 7 a2: 0 a3: 0] | Caixa:  787.95 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  29.95
+Dia  37 | Estoque[a0: 0 a1: 6 a2: 0 a3: 0] | Caixa:  818.05 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  30.10
+Dia  38 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:  864.55 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  46.50
+Dia  39 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:  878.05 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  13.50  <-- CHOQUE DE DEMANDA
+Dia  40 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:  894.55 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  16.50
+Dia  41 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:  881.05 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa= -13.50  <-- CHOQUE DE DEMANDA
+Dia  42 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa:  899.05 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  18.00
+Dia  43 | Estoque[a0: 0 a1: 3 a2: 0 a3: 0] | Caixa:  913.60 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  14.55
+Dia  44 | Estoque[a0: 0 a1: 4 a2: 0 a3: 0] | Caixa:  936.00 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  22.40
+Dia  45 | Estoque[a0: 0 a1: 9 a2: 0 a3: 0] | Caixa:  941.65 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=   5.65
+Dia  46 | Estoque[a0: 0 a1:14 a2: 2 a3: 0] | Caixa:  938.25 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  -3.40
+Dia  47 | Estoque[a0: 0 a1: 2 a2: 0 a3: 0] | Caixa:  984.95 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  46.70
+Dia  48 | Estoque[a0: 0 a1:10 a2: 0 a3: 0] | Caixa:  978.45 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  -6.50
+Dia  49 | Estoque[a0: 0 a1: 8 a2: 0 a3: 0] | Caixa: 1012.25 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  33.80
+Dia  50 | Estoque[a0: 0 a1: 7 a2: 1 a3: 0] | Caixa: 1010.05 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  -2.20
+Dia  51 | Estoque[a0: 0 a1: 4 a2: 0 a3: 0] | Caixa: 1052.45 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  42.40
+Dia  52 | Estoque[a0: 0 a1: 3 a2: 0 a3: 0] | Caixa: 1083.00 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  30.55
+Dia  53 | Estoque[a0: 0 a1: 9 a2: 0 a3: 0] | Caixa: 1084.65 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=   1.65
+Dia  54 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa: 1146.15 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  61.50
+Dia  55 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa: 1164.15 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  18.00
+Dia  56 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa: 1186.65 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  22.50
+Dia  57 | Estoque[a0: 0 a1: 6 a2: 0 a3: 0] | Caixa: 1188.75 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=   2.10
+Dia  58 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa: 1239.75 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  51.00
+Dia  59 | Estoque[a0: 0 a1: 0 a2: 0 a3: 0] | Caixa: 1254.75 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  15.00
+Dia  60 | Estoque[a0: 0 a1: 2 a2: 0 a3: 0] | Caixa: 1273.45 | Pend: [np.int64(14)] | ação(pedido)=14 | recompensa=  18.70
+
+=== RESULTADO FINAL DO EPISÓDIO ===
+Dias sobrevividos:      60
+Recompensa acumulada:   1223.45
+Caixa final:            1273.45
+Nível de serviço:       87.7%
+Total desperdiçado:     0 unidades
+Faliu (early stop)?     NÃO
+(venv) PS C:\Users\eduardo-windows\Desktop\ia\Grupo1_Estoque_Perecivel>
+
+================================================================================
+EXPLICAÇÃO DO LOG DE DEMONSTRAÇÃO (demo.py)
+================================================================================
+
+Este arquivo explica detalhadamente o que significa cada linha e termo do log de
+execução gerado pelo script de demonstração do agente de Aprendizado por Reforço.
+
+Comando executado:
+python scripts/demo.py --algo PPO --train_seed 0 --seed 42 --render
+
+--------------------------------------------------------------------------------
+1. CABEÇALHO DO EPISÓDIO
+--------------------------------------------------------------------------------
+No início, o ambiente é inicializado e as variáveis estocásticas da demanda são
+sorteadas usando a semente de avaliação (seed=42):
+
+* "lambda_base=12.19": É a demanda média diária base (taxa do processo de Poisson).
+  Isso significa que, em média, chegam pedidos de ~12 unidades por dia.
+* "prob_choque=0.042": A probabilidade de ocorrer um choque (pico repentino de
+  demanda) em qualquer dia é de 4.2%.
+* "prob_falha_entrega=0.050": Há 5% de chance de o fornecedor não entregar o
+  pedido completo no dia seguinte (falha logística parcial).
+
+--------------------------------------------------------------------------------
+2. ANÁLISE DAS COLUNAS DO DIA A DIA (EXEMPLO: DIA 4)
+--------------------------------------------------------------------------------
+"Dia   4 | Estoque[a0: 0 a1: 5 a2: 0 a3: 0] | Caixa:   34.75 | Pend: [np.int64(12)] | ação(pedido)=12 | recompensa=  10.25"
+
+* "Dia 4": O passo atual dentro do horizonte de 60 dias de simulação.
+* "Estoque[a0: 0 a1: 5 a2: 0 a3: 0]": Distribuição do estoque por idade:
+  - a0: produtos com idade 0 (recém-chegados hoje). Há 0 unidades.
+  - a1: produtos com idade 1 (chegaram ontem). Há 5 unidades.
+  - a2: produtos com idade 2. Há 0 unidades.
+  - a3: produtos com idade 3 (último dia de validade, se não vender hoje, expira). Há 0 unidades.
+* "Caixa: 34.75": Saldo financeiro acumulado. Iniciou em R$ 50.00 e está em R$ 34.75.
+* "Pend: [12]": Pedidos pendentes de entrega (lead time = 1 dia). Há um pedido de
+  12 unidades feito ontem que está a caminho e chegará no Dia 5.
+* "ação(pedido)=12": A decisão tomada pelo agente PPO hoje (comprar 12 unidades).
+* "recompensa= 10.25": O retorno financeiro imediato (lucro) obtido nas transações
+  deste dia. É calculado como:
+    Recompensa = Receita de Vendas - Custo de Compra - Custo Fixo de Pedido - Custo de Manutenção - Penalidades
+
+--------------------------------------------------------------------------------
+3. COMPORTAMENTO E EVENTOS DURANTE A SIMULAÇÃO
+--------------------------------------------------------------------------------
+* Compras constantes: Note que o agente PPO aprendeu uma política inteligente de
+  estabilidade, pedindo quase sempre 14 unidades por dia ("ação(pedido)=14").
+  Isso mantém o estoque em nível adequado para atender a demanda média de ~12.
+* "CHOQUE DE DEMANDA" (Dias 39 e 41): Nesses dias, a demanda explodiu muito acima
+  do normal. Como o estoque do agente estava em 0 unidades no início do dia, ele
+  teve faltas de produto ("stockout"), o que diminuiu sua margem de lucro e gerou
+  penalidade de falta, resultando em recompensas baixas ou negativas no dia.
+* Recuperação: Mesmo com os choques de demanda zerando o estoque físico temporariamente,
+  o caixa continuou subindo porque a política robusta do PPO garantiu que nos
+  dias comuns o caixa se recuperasse rapidamente.
+
+--------------------------------------------------------------------------------
+4. RESUMO DO RESULTADO FINAL
+--------------------------------------------------------------------------------
+Ao final dos 60 dias, o script mostra o desempenho geral do agente:
+
+* "Dias sobrevividos: 60": O agente resistiu o horizonte completo da simulação sem
+  ir à falência.
+* "Recompensa acumulada: 1223.45": A soma de todas as recompensas diárias.
+* "Caixa final: 1273.45": O saldo total de dinheiro final (lucro líquido de R$ 1.223,45
+  somado aos R$ 50,00 iniciais).
+* "Nível de serviço: 87.7%": Porcentagem da demanda total de clientes que foi atendida.
+  Um nível de 87.7% é considerado excelente diante de incertezas de transporte e choques.
+* "Total desperdiçado: 0 unidades": O agente não deixou nenhum produto expirar no estoque.
+  Isso indica que ele aprendeu a balancear perfeitamente a validade (shelf life) do produto.
+* "Faliu (early stop)? NÃO": O caixa nunca caiu abaixo do limite crítico de -R$ 80,00.
+
+================================================================================
