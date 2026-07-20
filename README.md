@@ -4,7 +4,7 @@ Este repositório contém a implementação de um ambiente de simulação e cont
 
 ---
 
-## 📌 Visão Geral do Projeto
+## Visão Geral do Projeto
 
 A gestão de estoques de produtos perecíveis (como alimentos, medicamentos e flores) é um desafio complexo na cadeia de suprimentos devido ao conflito constante entre evitar a falta de produto (falta de serviço) e evitar o desperdício por vencimento (shelf-life expirado). 
 
@@ -17,7 +17,7 @@ Este projeto modela esse problema como um **Processo de Decisão de Markov (MDP)
 
 ---
 
-## 📂 Estrutura do Diretório
+## Estrutura do Diretório
 
 ```text
 Grupo1_Estoque_Perecivel/
@@ -49,7 +49,7 @@ Grupo1_Estoque_Perecivel/
 
 ---
 
-## ⚙️ Configuração do Ambiente
+## Configuração do Ambiente
 
 Siga as instruções abaixo para configurar o ambiente de execução e rodar os scripts:
 
@@ -76,11 +76,11 @@ pip install -r requirements.txt
 
 ---
 
-## 🚀 Como Executar o Projeto
+## Como Executar o Projeto
 
 Com o ambiente ativado, utilize os seguintes comandos para rodar o código do projeto:
 
-### 🎮 1. Demonstração Interativa (Ver o agente em ação)
+### 1. Demonstração Interativa (Ver o agente em ação)
 Veja o comportamento do agente treinado dia a dia no terminal. É sorteada uma semente "surpresa" de simulação que define parâmetros de taxa de demanda base, propensão a choques e falhas logísticas.
 ```bash
 python scripts/demo.py --algo PPO --train_seed 0 --seed 42 --render
@@ -90,13 +90,13 @@ python scripts/demo.py --algo PPO --train_seed 0 --seed 42 --render
 * `--seed`: semente numérica aleatória para gerar a dinâmica do episódio.
 * `--render`: habilita a visualização dia a dia das vendas, estoque por idade e caixa.
 
-### 📊 2. Avaliação Comparativa (Gerar Resultados)
+### 2. Avaliação Comparativa (Gerar Resultados)
 Roda simulações agregadas comparando a baseline aleatória, a heurística clássica de estoque (regra $(s,S)$ baseada em média móvel da demanda) e os agentes treinados de RL (PPO e DQN):
 ```bash
 python scripts/evaluate.py
 ```
 
-### 📈 3. Gráficos Comparativos
+### 3. Gráficos Comparativos
 Gera os gráficos de análise e salva-os na pasta `/plots`:
 ```bash
 python scripts/plots.py
@@ -104,7 +104,7 @@ python scripts/plots.py
 
 ---
 
-## 📊 Resultados e Análise Comparativa
+## Resultados e Análise Comparativa
 
 Os agentes foram avaliados sob **10 sementes de simulação distintas** (não vistas no treinamento). A tabela abaixo resume as métricas agregadas dos experimentos realizados:
 
@@ -121,7 +121,7 @@ Os agentes foram avaliados sob **10 sementes de simulação distintas** (não vi
 
 ---
 
-## ⚡ Nota sobre Treinamento CPU vs GPU (RTX / CUDA)
+## Nota sobre Treinamento CPU vs GPU (RTX / CUDA)
 
 Se você tentar executar o script de treinamento com suporte a GPU/CUDA ativado no PyTorch, o `stable-baselines3` exibirá um aviso informativo (`UserWarning: You are trying to run PPO on the GPU...`).
 
@@ -130,7 +130,7 @@ Se você tentar executar o script de treinamento com suporte a GPU/CUDA ativado 
 
 ---
 
-## 🧠 Dinâmica do Ambiente (`PerishableInventoryEnv`)
+## Dinâmica do Ambiente (`PerishableInventoryEnv`)
 
 A modelagem de estoque perecível possui regras de transição específicas implementadas em [perishable_env.py](file:///C:/Users/eduardo-windows/Desktop/ia/Grupo1_Estoque_Perecivel/envs/perishable_env.py):
 
