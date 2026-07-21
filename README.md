@@ -43,6 +43,7 @@ Grupo1_Estoque_Perecivel/
 │   ├── evaluate.py            # Avaliação comparativa de todos os agentes
 │   ├── plots.py               # Script para geração dos gráficos
 │   └── train.py               # Treinamento dos agentes PPO e DQN
+├── app.py                     # Interface Streamlit para demonstração
 ├── requirements.txt           # Lista de dependências Python
 └── README.md                  # Este arquivo de documentação
 ```
@@ -80,7 +81,13 @@ pip install -r requirements.txt
 
 Com o ambiente ativado, utilize os seguintes comandos para rodar o código do projeto:
 
-### 1. Demonstração Interativa (Ver o agente em ação)
+### 1. Interface gráfica (recomendado para a apresentação)
+Abre um painel interativo no navegador: escolha o agente (DQN, PPO, Heurística ou Aleatório), a semente de treino e a **semente surpresa**, depois rode o episódio com gráficos de demanda/estoque/caixa e o diário dia a dia.
+```bash
+streamlit run app.py
+```
+
+### 2. Demonstração no terminal
 Veja o comportamento do agente treinado dia a dia no terminal. É sorteada uma semente "surpresa" de simulação que define parâmetros de taxa de demanda base, propensão a choques e falhas logísticas.
 ```bash
 python scripts/demo.py --algo PPO --train_seed 0 --seed 42 --render
@@ -90,13 +97,13 @@ python scripts/demo.py --algo PPO --train_seed 0 --seed 42 --render
 * `--seed`: semente numérica aleatória para gerar a dinâmica do episódio.
 * `--render`: habilita a visualização dia a dia das vendas, estoque por idade e caixa.
 
-### 2. Avaliação Comparativa (Gerar Resultados)
+### 3. Avaliação Comparativa (Gerar Resultados)
 Roda simulações agregadas comparando a baseline aleatória, a heurística clássica de estoque (regra $(s,S)$ baseada em média móvel da demanda) e os agentes treinados de RL (PPO e DQN):
 ```bash
 python scripts/evaluate.py
 ```
 
-### 3. Gráficos Comparativos
+### 4. Gráficos Comparativos
 Gera os gráficos de análise e salva-os na pasta `/plots`:
 ```bash
 python scripts/plots.py
