@@ -405,51 +405,91 @@ AGE_META = [
 
 
 def plot_episode(result: EpisodeResult):
-    fig, axes = plt.subplots(3, 1, figsize=(10, 7.2), sharex=True)
+    fig, axes = plt.subplots(3, 1, figsize=(10.5, 8.0), sharex=True, gridspec_kw={"hspace": 0.28})
     fig.patch.set_facecolor("#121820")
 
-    days = result.days
-    axes[0].plot(days, result.demand, color="#e07040", label="Demanda", alpha=0.85, lw=1.8)
-    axes[0].plot(days, result.sold, color="#3dba7a", label="Vendido", lw=1.8)
-    axes[0].plot(days, result.order, color="#5b9bd5", label="Pedido", ls="--", lw=1.5)
-    shock_days = [d for d, s in zip(days, result.shock) if s]
-    if shock_days:
-        axes[0].scatter(
-            shock_days,
-            [result.demand[days.index(d)] for d in shock_days],
-            color="#e8a838",
-            s=36,
-            zorder=5,
-            label="Choque",
+    days = np.asarray(result.days)
+    demand = np.asarray(result.demand)
+    sold = np.asarray(result.sold)
+    order = np.asarray(result.order)
+    cash = np.asarray(result.cash)
+    stock_total = np.asarray(result.stock_total)
+    shock_mask = np.asarray(result.shock)
+    shock_days = days[shock_mask]
+
+    # --- 1) Demanda / vendas / pedidos
+    ax = axes[0]
+    for d in shock_days:
+        ax.axvline(d, color="#e8a838", alpha=0.15, lw=1, zorder=1)
+    # realça a falta: área entre demanda e vendido só onde a demanda não foi atendida
+    gap_mask = demand > sold
+    ax.fill_between(
+        days, sold, demand,
+        where=gap_mask,
+        color="#e07040", alpha=0.28, interpolate=True, zorder=2,
+        label="Demanda não atendida",
+    )
+    ax.plot(days, demand, color="#e8956a", label="Demanda", lw=1.6, alpha=0.9, zorder=3)
+    ax.plot(days, sold, color="#3dba7a", label="Vendido", lw=2.1, zorder=4)
+    ax.step(days, order, where="mid", color="#5b9bd5", label="Pedido", lw=1.4, linestyle="--", alpha=0.85, zorder=3)
+    if len(shock_days):
+        ax.scatter(
+            shock_days, demand[shock_mask],
+            color="#e8a838", s=40, zorder=6, edgecolors="#121820", linewidths=0.7,
+            label="_nolegend_",
         )
-    axes[0].legend(facecolor="#1a222c", edgecolor="#2c3848", labelcolor="#e8eef4", fontsize=8)
-    axes[0].set_title("Demanda × Vendas × Pedidos")
-    style_axes(axes[0])
-
-    axes[1].stackplot(
-        days,
-        *[np.array(result.stock_by_age)[:, i] for i in range(len(result.stock_by_age[0]))],
-        labels=[m[0] for m in AGE_META[: len(result.stock_by_age[0])]],
-        colors=[m[2] for m in AGE_META[: len(result.stock_by_age[0])]],
-        alpha=0.85,
+    ax.set_ylabel("Unidades")
+    ax.set_title("Demanda × Vendas × Pedidos")
+    # Espaço extra no topo para a legenda nunca cobrir os picos de demanda/choque
+    peak = float(demand.max()) if len(demand) else 1.0
+    ax.set_ylim(0, peak * 1.5)
+    ax.legend(
+        facecolor="#1a222c", edgecolor="#2c3848", labelcolor="#e8eef4", fontsize=7.8,
+        ncol=4, loc="upper center", framealpha=0.92,
+        borderaxespad=0.6, handlelength=1.6, columnspacing=1.1,
     )
-    axes[1].legend(
-        facecolor="#1a222c",
-        edgecolor="#2c3848",
-        labelcolor="#e8eef4",
-        fontsize=7,
-        loc="upper right",
-        ncol=2,
-    )
-    axes[1].set_title("Composição do estoque por idade")
-    axes[1].set_ylim(bottom=0)
-    style_axes(axes[1])
+    style_axes(ax)
 
-    axes[2].plot(result.cash, color="#e8a838", lw=1.9)
-    axes[2].axhline(0, color="#e07040", ls=":", lw=1.2)
-    axes[2].set_title("Caixa acumulado")
-    axes[2].set_xlabel("Dia")
-    style_axes(axes[2])
+    # --- 2) Estoque total (idades ficam no painel ao lado; aqui evita linhas sobrepostas)
+    ax = axes[1]
+    ax.fill_between(days, stock_total, color="#4aa8c9", alpha=0.28)
+    ax.plot(days, stock_total, color="#6ec4e0", lw=2.2, label="Estoque total")
+    empty_days = days[stock_total == 0]
+    if len(empty_days):
+        ax.scatter(
+            empty_days,
+            np.zeros_like(empty_days),
+            color="#e07040",
+            s=28,
+            zorder=5,
+            label="Sem estoque",
+            marker="x",
+            linewidths=1.2,
+        )
+    for d in shock_days:
+        ax.axvline(d, color="#e8a838", alpha=0.15, lw=1)
+    ax.set_ylabel("Unidades")
+    ax.set_title("Estoque total ao longo do episódio")
+    ax.set_ylim(bottom=0)
+    ymax = max(float(stock_total.max()) * 1.15, 5.0)
+    ax.set_ylim(0, ymax)
+    ax.legend(facecolor="#1a222c", edgecolor="#2c3848", labelcolor="#e8eef4", fontsize=8, loc="upper left")
+    style_axes(ax)
+
+    # --- 3) Caixa
+    ax = axes[2]
+    cash_x = np.arange(len(cash))  # inclui caixa inicial (dia 0)
+    ax.fill_between(cash_x, cash, where=(cash >= 0), color="#e8a838", alpha=0.18)
+    ax.fill_between(cash_x, cash, where=(cash < 0), color="#e07040", alpha=0.25)
+    ax.plot(cash_x, cash, color="#e8a838", lw=2.0, label="Caixa")
+    ax.axhline(0, color="#e07040", ls=":", lw=1.2, label="Linha zero")
+    for d in shock_days:
+        ax.axvline(d, color="#e8a838", alpha=0.15, lw=1)
+    ax.set_ylabel("Caixa")
+    ax.set_xlabel("Dia")
+    ax.set_title("Caixa acumulado")
+    ax.legend(facecolor="#1a222c", edgecolor="#2c3848", labelcolor="#e8eef4", fontsize=8, loc="upper left")
+    style_axes(ax)
 
     fig.tight_layout()
     return fig
