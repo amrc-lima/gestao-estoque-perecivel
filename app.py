@@ -24,6 +24,27 @@ from envs.perishable_env import PerishableInventoryEnv  # noqa: E402
 
 MODELS_DIR = os.path.join(ROOT, "models")
 WEEKDAYS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
+TEAM_MEMBERS = [
+    "Carlos Erick Dos Santos",
+    "Eduardo Américo Santos Lima",
+    "Elias Reis",
+    "Hugo Gabriel Alves",
+]
+
+
+def render_team_footer():
+    names = " · ".join(TEAM_MEMBERS)
+    st.html(
+        "<div style='"
+        "margin-top:2.2rem;padding:1.15rem 0 0.5rem 0;border-top:1px solid #2c3848;"
+        "text-align:center;font-family:DM Sans,sans-serif;'>"
+        "<p style='color:#e8a838;font-size:0.72rem;font-weight:700;text-transform:uppercase;"
+        "letter-spacing:0.12em;margin:0 0 0.45rem 0;'>Grupo 1 · Inteligência Artificial 2026.1</p>"
+        f"<p style='color:#e8eef4;font-size:0.95rem;margin:0;line-height:1.55;'>{names}</p>"
+        "<p style='color:#8b9aab;font-size:0.8rem;margin:0.45rem 0 0 0;'>"
+        "Gestão de estoque perecível com demanda estocástica</p>"
+        "</div>"
+    )
 
 st.set_page_config(
     page_title="Estoque Perecível · Grupo 1",
@@ -225,6 +246,32 @@ st.markdown(
       flex-wrap: wrap;
     }
     .age-foot strong { color: var(--text); }
+
+    .page-footer {
+      margin-top: 2.2rem;
+      padding: 1.1rem 0 0.4rem 0;
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+    .page-footer .footer-kicker {
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin: 0 0 0.45rem 0;
+    }
+    .page-footer .footer-names {
+      color: var(--text);
+      font-size: 0.95rem;
+      margin: 0;
+      line-height: 1.55;
+    }
+    .page-footer .footer-meta {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin: 0.45rem 0 0 0;
+    }
 
     @media (max-width: 900px) {
       .metric-strip { grid-template-columns: repeat(2, 1fr); }
@@ -530,13 +577,16 @@ if run_btn or "last_result" not in st.session_state:
                 }
             except FileNotFoundError as exc:
                 st.error(str(exc))
+                render_team_footer()
                 st.stop()
             except Exception as exc:  # noqa: BLE001
                 st.error(f"Falha ao carregar/rodar o agente: {exc}")
+                render_team_footer()
                 st.stop()
 
 if "last_result" not in st.session_state:
     st.info("Configure o agente e a semente na barra lateral e clique em **Rodar episódio**.")
+    render_team_footer()
     st.stop()
 
 result: EpisodeResult = st.session_state.last_result
@@ -636,3 +686,5 @@ st.caption(
     f"Recompensa acumulada no último dia: **{cum[-1]:.1f}** · "
     f"Falência: **{'sim' if result.bankrupt else 'não'}**"
 )
+
+render_team_footer()
