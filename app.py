@@ -304,6 +304,8 @@ class EpisodeResult:
     final_cash: float = 0.0
     days_survived: int = 0
     dynamics: dict = field(default_factory=dict)
+    max_stock: int = 0
+    bankruptcy_threshold: float = 0.0
 
     @property
     def service_level(self) -> float:
@@ -353,6 +355,8 @@ def run_episode(agent_name: str, train_seed: int, eval_seed: int) -> EpisodeResu
             "shock_prob": float(env.shock_prob),
             "delivery_fail_prob": float(env.delivery_fail_prob),
         },
+        max_stock=int(env.max_stock),
+        bankruptcy_threshold=float(env.bankruptcy_threshold),
     )
 
     done = False
@@ -405,7 +409,9 @@ AGE_META = [
 
 
 def plot_episode(result: EpisodeResult):
-    fig, axes = plt.subplots(3, 1, figsize=(10.5, 8.0), sharex=True, gridspec_kw={"hspace": 0.28})
+    fig, axes = plt.subplots(
+        3, 1, figsize=(10.5, 8.0), dpi=120, sharex=True, gridspec_kw={"hspace": 0.28}
+    )
     fig.patch.set_facecolor("#121820")
 
     days = np.asarray(result.days)
@@ -452,8 +458,14 @@ def plot_episode(result: EpisodeResult):
 
     # --- 2) Estoque total (idades ficam no painel ao lado; aqui evita linhas sobrepostas)
     ax = axes[1]
-    ax.fill_between(days, stock_total, color="#4aa8c9", alpha=0.28)
-    ax.plot(days, stock_total, color="#6ec4e0", lw=2.2, label="Estoque total")
+    for d in shock_days:
+        ax.axvline(d, color="#e8a838", alpha=0.15, lw=1, zorder=1)
+    ax.fill_between(days, stock_total, color="#4aa8c9", alpha=0.28, zorder=2)
+    ax.plot(days, stock_total, color="#6ec4e0", lw=2.2, label="Estoque total", zorder=3)
+    ax.axhline(
+        result.max_stock, color="#8b9aab", ls="--", lw=1.3, alpha=0.85, zorder=2,
+        label=f"Capacidade máxima ({result.max_stock} un.)",
+    )
     empty_days = days[stock_total == 0]
     if len(empty_days):
         ax.scatter(
@@ -466,29 +478,48 @@ def plot_episode(result: EpisodeResult):
             marker="x",
             linewidths=1.2,
         )
-    for d in shock_days:
-        ax.axvline(d, color="#e8a838", alpha=0.15, lw=1)
     ax.set_ylabel("Unidades")
     ax.set_title("Estoque total ao longo do episódio")
-    ax.set_ylim(bottom=0)
-    ymax = max(float(stock_total.max()) * 1.15, 5.0)
-    ax.set_ylim(0, ymax)
-    ax.legend(facecolor="#1a222c", edgecolor="#2c3848", labelcolor="#e8eef4", fontsize=8, loc="upper left")
+    # Folga acima do maior entre o pico observado e a capacidade máxima: garante espaço
+    # para a legenda e mantém a régua de capacidade visível para qualquer semente sorteada.
+    stock_peak = max(float(stock_total.max()), float(result.max_stock)) if len(stock_total) else float(result.max_stock)
+    ax.set_ylim(0, max(stock_peak * 1.25, 5.0))
+    ax.legend(
+        facecolor="#1a222c", edgecolor="#2c3848", labelcolor="#e8eef4", fontsize=7.8,
+        ncol=3, loc="upper center", framealpha=0.92,
+        borderaxespad=0.6, handlelength=1.6, columnspacing=1.1,
+    )
     style_axes(ax)
 
     # --- 3) Caixa
     ax = axes[2]
     cash_x = np.arange(len(cash))  # inclui caixa inicial (dia 0)
-    ax.fill_between(cash_x, cash, where=(cash >= 0), color="#e8a838", alpha=0.18)
-    ax.fill_between(cash_x, cash, where=(cash < 0), color="#e07040", alpha=0.25)
-    ax.plot(cash_x, cash, color="#e8a838", lw=2.0, label="Caixa")
-    ax.axhline(0, color="#e07040", ls=":", lw=1.2, label="Linha zero")
     for d in shock_days:
-        ax.axvline(d, color="#e8a838", alpha=0.15, lw=1)
+        ax.axvline(d, color="#e8a838", alpha=0.15, lw=1, zorder=1)
+    ax.fill_between(cash_x, cash, where=(cash >= 0), color="#e8a838", alpha=0.18, zorder=2)
+    ax.fill_between(cash_x, cash, where=(cash < 0), color="#e07040", alpha=0.25, zorder=2)
+    ax.plot(cash_x, cash, color="#e8a838", lw=2.0, label="Caixa", zorder=3)
+    ax.axhline(0, color="#8b9aab", ls=":", lw=1.1, alpha=0.85, label="Linha zero", zorder=2)
+    ax.axhline(
+        result.bankruptcy_threshold, color="#e07040", ls="--", lw=1.3, alpha=0.85, zorder=2,
+        label=f"Limite de falência ({result.bankruptcy_threshold:.0f})",
+    )
     ax.set_ylabel("Caixa")
     ax.set_xlabel("Dia")
     ax.set_title("Caixa acumulado")
-    ax.legend(facecolor="#1a222c", edgecolor="#2c3848", labelcolor="#e8eef4", fontsize=8, loc="upper left")
+    # Folga proporcional acima do máximo e abaixo do mínimo (incluindo o limite de
+    # falência), com legenda centralizada — robusto independentemente de a trajetória
+    # subir, cair ou beirar a falência, já que a semente é escolhida na hora.
+    cash_min = float(cash.min()) if len(cash) else 0.0
+    cash_max = float(cash.max()) if len(cash) else 0.0
+    raw_bottom = min(cash_min, result.bankruptcy_threshold, 0.0)
+    span = max(cash_max - raw_bottom, 1.0)
+    ax.set_ylim(raw_bottom - span * 0.08, cash_max + span * 0.35)
+    ax.legend(
+        facecolor="#1a222c", edgecolor="#2c3848", labelcolor="#e8eef4", fontsize=7.8,
+        ncol=3, loc="upper center", framealpha=0.92,
+        borderaxespad=0.6, handlelength=1.6, columnspacing=1.1,
+    )
     style_axes(ax)
 
     fig.tight_layout()
@@ -543,8 +574,8 @@ def render_stock_ages(result: EpisodeResult, day_idx: int) -> str:
         f"<h4 style=\"font-family:'Fraunces',Georgia,serif;margin:0 0 0.2rem 0;"
         f"font-size:1.05rem;color:#e8eef4;\">Estoque por idade — dia {day} ({wd})</h4>"
         "<p style='color:#8b9aab;font-size:0.8rem;margin:0 0 0.9rem 0;'>"
-        f"Escala relativa ao pico do episódio ({scale} un.). "
-        "Verde = fresco · âmbar/vermelho = perto de vencer.</p>"
+        f"Barras na escala da maior quantidade observada em uma única faixa de idade "
+        f"no episódio ({scale} un.). Verde = fresco · âmbar/vermelho = perto de vencer.</p>"
         f"{''.join(rows_html)}"
         f"{empty_html}"
         "<div style='margin-top:0.75rem;padding-top:0.65rem;border-top:1px solid #2c3848;"
